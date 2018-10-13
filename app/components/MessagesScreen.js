@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, View, FlatList, Image, Text, TextInput, TouchableHighlight, Alert } from 'react-native';
-import { ListItem, Left, Body, Right } from 'native-base';
 import { Header, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 
