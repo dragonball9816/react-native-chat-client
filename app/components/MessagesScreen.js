@@ -53,6 +53,12 @@ class MessagesScreen extends React.Component {
     )
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    this.refs.msgList.scrollToEnd({
+      animated: true
+    });
+  }
+
   renderMessage = (msg) => {
     /**
      * The ListItem of native-base is difficult to control flex style.
