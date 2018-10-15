@@ -68,7 +68,7 @@ class MessagesScreen extends React.Component {
       // Receiving
       return (
         <View style={styles.listItem}>
-          <Image source={require('../../assets/images/man-32x32.png')} style={styles.edgeItem} />
+          <Icon name='public' color='mediumblue' style={styles.edgeItem} />
           <View style={styles.centerItem}>
             <Text style={styles.msgText}>{msg.item.text}</Text>
             <Text style={styles.msgTime}>{getHumanDateTimeString(msg.item.time)}</Text>
@@ -84,7 +84,7 @@ class MessagesScreen extends React.Component {
             <Text style={[styles.msgText, { textAlign: 'right' }]}>{msg.item.text}</Text>
             <Text style={[styles.msgTime, { textAlign: 'right' }]}>{getHumanDateTimeString(msg.item.time)}</Text>
           </View>
-          <Image source={require('../../assets/images/man-32x32.png')} style={styles.edgeItem} />
+          <Icon name='person' color='mediumblue' style={styles.edgeItem} />
         </View>
       );
     }
@@ -121,9 +121,12 @@ const styles = StyleSheet.create({
     borderBottomColor: 'lightgray',
     borderBottomWidth: 1,
     flexDirection: 'row',
+    marginLeft: 15,
+    marginRight: 15,
   },
   edgeItem: {
-    margin: 15,
+    marginLeft: 15,
+    marginRight: 15,
   },
   centerItem: {
     flex: 1,
