@@ -6,28 +6,10 @@ const initialState = {
   connected: false,
   sessionId: '',
   username: '',
-  clients: [/*{
-    sessionId: '01564562456-489645631',
-    username: 'John Smith',
-  },{
-    sessionId: '159563156-78945641231',
-    username: 'Jane Eyre',
-  }*/],
+  clients: [],
   partnerId: '',
   partnerName: '',
-  messages: [/*{
-    sender: '01564562456-489645631',
-    text: 'Hi',
-  },{
-    receiver: '01564562456-489645631',
-    text: 'Bye Bye Bye Bye Bye Bye Bye Bye Bye Bye Bye Bye Bye Bye Bye Bye',
-  },{
-    sender: '159563156-78945641231',
-    text: 'NiHao',
-  },{
-    receiver: '159563156-78945641231',
-    text: 'ZaiJian',
-  }*/],
+  messages: [],
 };
 
 export default appReducer = (state = initialState, action = {}) => {
@@ -106,6 +88,7 @@ export default appReducer = (state = initialState, action = {}) => {
           ...state.messages, {
             receiver: action.payload.receiver,
             text: action.payload.text,
+            time: action.payload.time,
           },
         ],
       };
@@ -116,6 +99,7 @@ export default appReducer = (state = initialState, action = {}) => {
           ...state.messages, {
             sender: action.payload.sender,
             text: action.payload.text,
+            time: action.payload.time,
           },
         ],
       };

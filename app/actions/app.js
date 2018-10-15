@@ -83,22 +83,24 @@ export const enterRoom = (partnerId: string, partnerName: string) => {
   };
 }
 
-export function sendText(receiver: string, text: string) {
+export function sendText(receiver: string, text: string, time: number) {
   return {
     type: actionTypes.SEND_TEXT,
     payload: {
       receiver: receiver,
       text: text,
+      time: time,
     },
   };
 }
 
-export function receiveText(sender: string, text: string) {
+export function receiveText(sender: string, text: string, time: number) {
   return {
     type: actionTypes.RECEIVE_TEXT,
     payload: {
       sender: sender,
       text: text,
+      time: time,
     },
   };
 }

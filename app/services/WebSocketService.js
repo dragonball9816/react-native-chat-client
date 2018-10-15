@@ -8,6 +8,7 @@ import {
   someoneLeft,
   someoneRenamed,
   clientsArrived,
+  sendText,
   receiveText,
 } from '../actions/app';
 
@@ -57,8 +58,11 @@ class WebSocketService {
         case 'clients-arrived':
           store.dispatch(clientsArrived(msg.clients));
           break;
+        case 'send-text':
+          store.dispatch(sendText(msg.receiver, msg.text, msg.time));
+          break;
         case 'receive-text':
-          store.dispatch(receiveText(msg.sender, msg.text));
+          store.dispatch(receiveText(msg.sender, msg.text, msg.time));
           break;
       }
     };

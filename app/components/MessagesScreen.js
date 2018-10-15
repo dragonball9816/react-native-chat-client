@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import WebSocketService from '../services/WebSocketService';
 import { sendText } from '../actions/app';
+import { getHumanDateTimeString } from '../util/HumanDateTimeFormat';
 
 class MessagesScreen extends React.Component {
 
@@ -30,20 +31,22 @@ class MessagesScreen extends React.Component {
           rightComponent={{ icon: 'home', color: 'white' }}
         />
         <FlatList
+          ref='msgList'
           data={this.props.messages}
           renderItem={(msg) => this.renderMessage(msg)}
         />
-        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+        <View style={styles.footer}>
           <TextInput
               style={styles.editor}
-              placeholder='Please enter your text.'
-              placeholderTextColor='steelblue'
+              placeholder='Type a message here.'
+              placeholderTextColor='lightgray'
               onChangeText={(message) => this.setState({message})}
               value={this.state.message} />
           <TouchableHighlight
               underlayColor='transparent'
-              onPress={this.handleSend}>
-            <Icon name='sc-telegram' type='evilicon' color='lightblue' size={48} />
+              onPress={this.handleSend}
+              style={{ justifyContent: 'center' }}>
+            <Icon name='telegram' type='font-awesome' color='lightblue' size={36} />
           </TouchableHighlight>
         </View>
       </View>
@@ -56,20 +59,24 @@ class MessagesScreen extends React.Component {
      * So I use the general View, not ListItem, Left, Body and Right.
      */
     if (msg.item.sender && msg.item.sender == this.props.partnerId) {
+      // Receiving
       return (
         <View style={styles.listItem}>
           <Image source={require('../../assets/images/man-32x32.png')} style={styles.edgeItem} />
           <View style={styles.centerItem}>
-            <Text style={{ fontSize: 18 }}>{msg.item.text}</Text>
+            <Text style={styles.msgText}>{msg.item.text}</Text>
+            <Text style={styles.msgTime}>{getHumanDateTimeString(msg.item.time)}</Text>
           </View>
         </View>
       );
     }
     if (msg.item.receiver && msg.item.receiver == this.props.partnerId) {
+      // Sneding
       return (
         <View style={styles.listItem}>
           <View style={styles.centerItem}>
-            <Text style={{ textAlign: 'right', fontSize: 18 }}>{msg.item.text}</Text>
+            <Text style={[styles.msgText, { textAlign: 'right' }]}>{msg.item.text}</Text>
+            <Text style={[styles.msgTime, { textAlign: 'right' }]}>{getHumanDateTimeString(msg.item.time)}</Text>
           </View>
           <Image source={require('../../assets/images/man-32x32.png')} style={styles.edgeItem} />
         </View>
@@ -90,9 +97,8 @@ class MessagesScreen extends React.Component {
       cmd: 'send-text',
       sessionId: this.props.sessionId,
       receiver: this.props.partnerId,
-      message: this.state.message,
+      text: this.state.message,
     });
-    this.props.onSendText(this.props.partnerId, this.state.message);
     this.setState({
       message: ''
     });
@@ -118,9 +124,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     margin: 10,
   },
+  msgText: {
+    fontSize: 18,
+  },
+  msgTime: {
+    color: 'lightgray',
+  },
+  footer: {
+    flexDirection: 'row',
+    borderTopColor: 'lightblue',
+    borderTopWidth: 1,
+    marginLeft: 5,
+    marginRight: 5,
+  },
   editor: {
     flex: 1,
-    color: 'darkblue',
     fontSize: 18,
   },
 });
@@ -136,10 +154,4 @@ const mapStateToProps = (state, ownProps) => {
   };
 }
 
-const mapDispatchToProps = dispatch => ({
-  onSendText: (receiver, text) => {
-    dispatch(sendText(receiver, text));
-  },
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(MessagesScreen);
+export default connect(mapStateToProps)(MessagesScreen);
