@@ -47,15 +47,39 @@ class ContactsScreen extends React.Component {
   }
 
   renderPerson = (client) => {
-    return (
-      <ListItem
-        key={client.item.sessionId}
-        roundAvatar
-        title={client.item.username}
-        avatar={require('../../assets/images/man-32x32.png')}
-        onPress={() => this.pressPerson(client.item.sessionId, client.item.username)}
-      />
-    );
+    var lastText = '';
+    this.props.messages.forEach(msg => {
+      if (msg.sender && msg.sender == client.item.sessionId) {
+        lastText = msg.text;
+        return;
+      }
+      if (msg.receiver && msg.receiver == client.item.sessionId) {
+        lastText = msg.text;
+        return;
+      }
+    });
+    if (lastText == '') {
+      return (
+        <ListItem
+          key={client.item.sessionId}
+          roundAvatar
+          title={client.item.username}
+          avatar={require('../../assets/images/man-32x32.png')}
+          onPress={() => this.pressPerson(client.item.sessionId, client.item.username)}
+        />
+      );
+    } else {
+      return (
+        <ListItem
+          key={client.item.sessionId}
+          roundAvatar
+          title={client.item.username}
+          subtitle={lastText}
+          avatar={require('../../assets/images/man-32x32.png')}
+          onPress={() => this.pressPerson(client.item.sessionId, client.item.username)}
+        />
+      );
+    }
   }
 
   pressPerson = (partnerId, partnerName) => {
@@ -72,6 +96,7 @@ const mapStateToProps = (state, ownProps) => {
     sessionId: state.app.sessionId,
     username: state.app.username,
     clients: state.app.clients,
+    messages: state.app.messages,
   };
 }
 

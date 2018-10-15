@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   msgTime: {
-    color: 'lightgray',
+    color: 'gray',
   },
   footer: {
     flexDirection: 'row',
